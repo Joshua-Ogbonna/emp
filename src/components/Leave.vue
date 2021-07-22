@@ -46,12 +46,17 @@
         <button class="mt-2" @click.prevent="leaveApply">Sumbit</button>
       </form>
 
-      <div class="leave__table mt-5" v-if="this.$store.getters.user.leaves.length > 0">
+      <div
+        class="leave__table mt-5"
+        v-if="this.$store.getters.user.leaves.length > 0"
+      >
+        <h4>Your leave applications</h4>
         <table class="table">
           <thead>
             <tr>
               <th scope="col">Reason</th>
               <th scope="col">Leave</th>
+              <th scope="col">Approval Status</th>
             </tr>
           </thead>
           <tbody>
@@ -61,6 +66,7 @@
             >
               <th scope="row">{{ leave.reason }}</th>
               <td>{{ leave.message }}</td>
+              <td>{{ leave.approved }}</td>
             </tr>
           </tbody>
         </table>
@@ -95,9 +101,11 @@ export default {
       this.$store
         .dispatch("POSTLEAVE", this.leave)
         .then(() => {
-          this.showForm = false;
-          this.show = false;
           this.$store.dispatch("GETPROFILE");
+          this.show = false;
+          this.showForm = false;
+          this.leave.reason = "";
+          this.leave.message = "";
         })
         .catch((err) => {
           console.log(err);

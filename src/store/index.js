@@ -375,11 +375,11 @@ export default new Vuex.Store({
     },
 
     // Post sales
-    async postSale({ commit }, payload) {
+    async POSTCOMPLAINT({ commit }, payload) {
       commit("sale_request");
       await axios
         .put(
-          "https://frozen-refuge-45677.herokuapp.com/api/sale/" +
+          "https://frozen-refuge-45677.herokuapp.com/api/complaint/" +
             this.state.user._id,
           payload
         )

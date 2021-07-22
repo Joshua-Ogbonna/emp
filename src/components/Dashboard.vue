@@ -82,4 +82,7 @@ a {
   text-decoration: none;
   color: inherit;
 }
+a:hover {
+  color: #fff;
+}
 </style>
