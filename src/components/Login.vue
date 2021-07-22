@@ -32,7 +32,8 @@ export default {
       user: {
         email: '',
         password: ''
-      }
+      },
+      show: false
     }
   },
   methods: {

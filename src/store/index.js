@@ -1,50 +1,49 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
-import router from '../router';
+import Vue from "vue";
+import Vuex from "vuex";
+import router from "../router";
 
 // Import axios
-import axios from 'axios'
+import axios from "axios";
 
 Vue.use(Vuex);
 
-import VuexPersist from 'vuex-persist';
+import VuexPersist from "vuex-persist";
 
 const vuexLocalStorage = new VuexPersist({
-  key: 'vuex',
-  storage: window.localStorage
+  key: "vuex",
+  storage: window.localStorage,
 });
 
 export default new Vuex.Store({
   state: {
     isLoading: false,
     isAuthenticated: false,
-    token: localStorage.getItem('token') || '',
+    token: localStorage.getItem("token") || "",
     user: {},
     leads: [],
     clients: [],
     notes: [],
     tasks: [],
     products: [],
-    sales: []
+    sales: [],
   },
   getters: {
-    isLoggedIn: state => !!state.token,
-    authState: state => state.isAuthenticated,
-    user: state => state.user,
-    leads: state => state.leads.reverse(),
-    clients: state => state.clients.reverse(),
-    notes: state => state.notes.reverse(),
-    tasks: state => state.tasks.reverse(),
-    products: state => state.products.reverse(),
-    sales: state => state.sales.reverse()
+    isLoggedIn: (state) => !!state.token,
+    authState: (state) => state.isAuthenticated,
+    user: (state) => state.user,
+    leads: (state) => state.leads.reverse(),
+    clients: (state) => state.clients.reverse(),
+    notes: (state) => state.notes.reverse(),
+    tasks: (state) => state.tasks.reverse(),
+    products: (state) => state.products.reverse(),
+    sales: (state) => state.sales.reverse(),
   },
   mutations: {
     register_request(state) {
       state.isLoading = true;
     },
-    register_success(state, token, user) {
+    register_success(state, token) {
       state.token = token;
-      state.user = user;
       state.isLoading = false;
       state.isAuthenticated = true;
     },
@@ -52,14 +51,13 @@ export default new Vuex.Store({
     login_request(state) {
       state.isLoading = true;
     },
-    login_success(state, token, user) {
-      state.token = token;
-      state.user = user;
+    login_success(state, token) {
       state.isLoading = false;
+      state.token = token;
     },
     // Logout request
     logout(state) {
-      (state.token = ''), (state.user = {}), (state.isAuthenticated = false);
+      (state.token = ""), (state.user = {}), (state.isAuthenticated = false);
     },
 
     // Profile request
@@ -154,284 +152,286 @@ export default new Vuex.Store({
     },
     delete_success(state) {
       state.isLoading = false;
-    }
+    },
   },
   actions: {
     SIGNUP({ commit }, payload) {
-      commit('register_request', true);
+      commit("register_request", true);
       axios
-        .post('https://frozen-refuge-45677.herokuapp.com/api/newStaff', payload)
-        .then(response => {
+        .post("https://frozen-refuge-45677.herokuapp.com/api/newStaff", payload)
+        .then((response) => {
           if (response.data.success) {
             // router.push('/dashboard')
+           
             const token = response.data.token;
-            const user = response.data.user;
             // Set token to localStorage
-            localStorage.setItem('token', token);
+            localStorage.setItem("token", token);
             // Set axios headers
             axios.defaults.headers.common.Authorization = token;
 
-            commit('register_success', token, user);
-            router.push('/dashboard');
+            commit("register_success", token);
+            router.push("/dashboard");
           }
           console.log(response);
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
     },
 
     // Login Action
     async LOGIN({ commit }, payload) {
-      commit('login_request');
+      commit("login_request");
 
       await axios
-        .post('https://frozen-refuge-45677.herokuapp.com/api/staff', payload)
-        .then(response => {
+        .post("https://frozen-refuge-45677.herokuapp.com/api/staff", payload)
+        .then((response) => {
           if (response.data.success) {
             const token = response.data.token;
-            const user = response.data.user;
-
-            // Set localstorage token
-            localStorage.setItem('token', token);
+            
+            localStorage.setItem("token", token);
             // Set axios headers
             axios.defaults.headers.common.Authorization = token;
 
             // Commit response login
-            commit('login_success', token, user);
-            router.push('/dashboard');
+            commit("login_success", token);
+            router.push("/dashboard");
           }
         })
-        .catch(err => console.log(err.message));
+        .catch((err) => console.log(err.message));
     },
 
     // Sign out action
     SIGNOUT({ commit }) {
-      commit('logout');
-      localStorage.removeItem('token');
-      localStorage.removeItem('vuex')
+      commit("logout");
+      localStorage.removeItem("token");
+      localStorage.removeItem("vuex");
       delete axios.defaults.headers.common.Authorization;
-      router.push('/login');
+      router.push("/login");
     },
 
     // Get user profile
     GETPROFILE({ commit }) {
-      commit('profile_request');
+      commit("profile_request");
       axios
-        .get('https://frozen-refuge-45677.herokuapp.com/api/staffProfile/' + this.state.user._id)
-        .then(response => {
+        .get("https://frozen-refuge-45677.herokuapp.com/api/profile", {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        })
+        .then((response) => {
           // console.log(response);
           const user = response.data.user;
-          commit('profile_success', user);
+          commit("profile_success", user);
         });
     },
 
     GETPRODUCTS({ commit }) {
-      commit('products_request');
+      commit("products_request");
       axios
-        .get('https://frozen-refuge-45677.herokuapp.com/api/profile', {
+        .get("https://frozen-refuge-45677.herokuapp.com/api/profile", {
           headers: {
-            Authorization: 'Bearer ' + localStorage.getItem('token')
-          }
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
         })
-        .then(response => {
+        .then((response) => {
           // console.log(response);
           const products = response.data.user.products;
 
-          commit('products_success', products);
+          commit("products_success", products);
         });
     },
 
     POSTPRODUCT({ commit }, payload) {
-      commit('postProduct_request');
+      commit("postProduct_request");
       axios
         .put(
-          'https://frozen-refuge-45677.herokuapp.com/api/product/' +
+          "https://frozen-refuge-45677.herokuapp.com/api/product/" +
             this.state.user._id,
           payload
         )
-        .then(response => {
+        .then((response) => {
           if (response.data.success) {
-            commit('postProduct_success');
+            commit("postProduct_success");
           }
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
     },
 
     GETSALES({ commit }) {
-      commit('getSales_request');
+      commit("getSales_request");
       axios
-        .get('https://frozen-refuge-45677.herokuapp.com/api/profile', {
+        .get("https://frozen-refuge-45677.herokuapp.com/api/profile", {
           headers: {
-            Authorization: 'Bearer ' + localStorage.getItem('token')
-          }
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
         })
-        .then(response => {
+        .then((response) => {
           // console.log(response);
           const sales = response.data.user.sales;
 
-          commit('getSales_success', sales);
+          commit("getSales_success", sales);
         });
     },
     // Get a lead
     GETLEAD({ commit }) {
-      commit('lead_request');
+      commit("lead_request");
       axios
         .get(
-          'https://frozen-refuge-45677.herokuapp.com/api/leads/' +
+          "https://frozen-refuge-45677.herokuapp.com/api/leads/" +
             this.state.user._id
         )
-        .then(response => {
+        .then((response) => {
           const leads = response.data.leads.leads;
-          commit('lead_success', leads);
+          commit("lead_success", leads);
         });
     },
 
     // Post a Lead
     async POSTLEAD({ commit }, payload) {
-      commit('postLead_request');
+      commit("postLead_request");
       await axios
-        .post('https://frozen-refuge-45677.herokuapp.com/api/create', payload, {
+        .post("https://frozen-refuge-45677.herokuapp.com/api/create", payload, {
           headers: {
-            Authorization: 'Bearer ' + localStorage.getItem('token')
-          }
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
         })
-        .then(response => {
+        .then((response) => {
           if (response.data.success) {
-            router.push('/dashboard');
-            commit('postLead_success');
+            router.push("/dashboard");
+            commit("postLead_success");
           }
         });
     },
 
     // Get Clients
     async GETCLIENTS({ commit }) {
-      commit('client_request');
+      commit("client_request");
       await axios
         .get(
-          'https://frozen-refuge-45677.herokuapp.com/api/clients/' +
+          "https://frozen-refuge-45677.herokuapp.com/api/clients/" +
             this.state.user._id
         )
-        .then(response => {
+        .then((response) => {
           // console.log(response.data.clients.clients)
           const clients = response.data.clients.clients;
 
-          commit('client_success', clients);
+          commit("client_success", clients);
         });
     },
 
     // Post Clients
     async POSTCLIENTS({ commit }, payload) {
-      commit('postClient_request');
+      commit("postClient_request");
       await axios
-        .post('https://frozen-refuge-45677.herokuapp.com/api/client', payload, {
+        .post("https://frozen-refuge-45677.herokuapp.com/api/client", payload, {
           headers: {
-            Authorization: 'Bearer ' + localStorage.getItem('token')
-          }
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
         })
-        .then(response => {
+        .then((response) => {
           if (response.data.success) {
-            router.push('/dashboard/clients');
-            commit('postClient_success');
+            router.push("/dashboard/clients");
+            commit("postClient_success");
           }
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
     },
 
     // Get Client note
     async getNote({ commit }, id) {
-      commit('note_request');
+      commit("note_request");
       await axios
-        .get('https://frozen-refuge-45677.herokuapp.com/api/client/' + id)
-        .then(response => {
+        .get("https://frozen-refuge-45677.herokuapp.com/api/client/" + id)
+        .then((response) => {
           if (response.data.success) {
             const notes = response.data.data.notes;
-            commit('note_success', notes);
+            commit("note_success", notes);
           }
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
     },
 
     // Get client tasks
     async getTasks({ commit }, id) {
-      commit('task_request');
+      commit("task_request");
       await axios
-        .get('https://frozen-refuge-45677.herokuapp.com/api/client/' + id)
-        .then(response => {
+        .get("https://frozen-refuge-45677.herokuapp.com/api/client/" + id)
+        .then((response) => {
           if (response.data.success) {
             const tasks = response.data.data.tasks;
-            commit('task_success', tasks);
+            commit("task_success", tasks);
           }
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
     },
 
     // Post sales
     async postSale({ commit }, payload) {
-      commit('sale_request');
+      commit("sale_request");
       await axios
         .put(
-          'https://frozen-refuge-45677.herokuapp.com/api/sale/' +
+          "https://frozen-refuge-45677.herokuapp.com/api/sale/" +
             this.state.user._id,
           payload
         )
-        .then(response => {
+        .then((response) => {
           if (response.data.success) {
-            commit('sale_success');
+            commit("sale_success");
           }
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
     },
 
     // Delete product
     async DELETEPRODUCT({ commit }, id) {
-      commit('delete_request');
+      commit("delete_request");
       await axios
         .delete(
-          'https://frozen-refuge-45677.herokuapp.com/api/product/' +
+          "https://frozen-refuge-45677.herokuapp.com/api/product/" +
             this.state.user._id +
-            '/' +
+            "/" +
             id
         )
-        .then(response => {
+        .then((response) => {
           if (response.data.success) {
-            commit('delete_success');
+            commit("delete_success");
           }
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err.data);
         });
     },
     // Delete sale
-    async DELETESALE ({ commit }, id) {
-      commit('delete_request');
+    async DELETESALE({ commit }, id) {
+      commit("delete_request");
       await axios
         .delete(
-          'https://frozen-refuge-45677.herokuapp.com/api/sale/' +
+          "https://frozen-refuge-45677.herokuapp.com/api/sale/" +
             this.state.user._id +
-            '/' +
+            "/" +
             id
         )
-        .then(response => {
+        .then((response) => {
           if (response.data.success) {
-            commit('delete_success');
+            commit("delete_success");
           }
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err.data);
         });
-    }
+    },
   },
   modules: {},
-  plugins: [vuexLocalStorage.plugin]
+  plugins: [vuexLocalStorage.plugin],
 });
