@@ -30,7 +30,34 @@
 </template>
 
 <script>
-export default {};
+import axios from "axios";
+export default {
+    data() {
+        return {
+            staff: {}
+        }
+    },
+  methods: {
+    getProfile() {
+      axios
+        .get(
+          "https://frozen-refuge-45677.herokuapp.com/api/staffProfile/" +
+            this.$store.state.user._id
+        )
+        .then((response) => {
+            if (response.data.success) {
+                const user = response.data.user
+                this.staff = user
+            }
+        }).catch(err => {
+            console.log(err)
+        });
+    },
+  },
+  mounted () {
+      this.$store.dispatch('GETPROFILE')
+  },
+};
 </script>
 
 <style scoped>
@@ -52,7 +79,7 @@ export default {};
   cursor: pointer;
 }
 a {
-    text-decoration: none;
-    color: inherit;
+  text-decoration: none;
+  color: inherit;
 }
 </style>

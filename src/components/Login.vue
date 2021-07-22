@@ -1,17 +1,18 @@
 <template>
-  <div class="login">
+<b-overlay :show="show" rounded="sm">
+  <div class="login" :aria-hidden="show ? 'true' : null">
     <h3 class="text-center">Welcome to FPNEKEDE Staff Management System</h3>
     <div class="container form">
       <form>
         <div class="form-group mt-5">
           <label for="email" class="form-label">Email</label>
-          <input class="form-control" type="email" name="email" />
+          <input class="form-control" type="email" name="email" v-model="user.email" />
         </div>
         <div class="form-group mt-5">
           <label for="password" class="form-label">Pasword</label>
-          <input class="form-control" name="password" type="password" />
+          <input class="form-control" name="password" type="password" v-model="user.password" />
         </div>
-        <button class="mt-5">Sign In</button>
+        <button class="mt-5" @click.prevent="loginUser">Sign In</button>
       </form>
       <div class="info mt-5">
         <p>
@@ -21,10 +22,35 @@
       </div>
     </div>
   </div>
+  </b-overlay>
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      user: {
+        email: '',
+        password: ''
+      }
+    }
+  },
+  methods: {
+    loginUser() {
+      this.show = true
+      this.isLoading = true
+      this.$store.dispatch('LOGIN', this.user).then((response) => {
+        if (response.data.success) {
+          this.isLoading = false
+          this.show = false
+        }
+      }).catch(err => {
+        console.log(err)
+        this.show = false
+      })
+    },
+  },
+};
 </script>
 
 <style scoped>

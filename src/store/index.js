@@ -179,7 +179,7 @@ export default new Vuex.Store({
       commit('login_request');
 
       await axios
-        .post('https://frozen-refuge-45677.herokuapp.com/api/login', payload)
+        .post('https://frozen-refuge-45677.herokuapp.com/api/staff', payload)
         .then(response => {
           if (response.data.success) {
             const token = response.data.token;
@@ -211,11 +211,7 @@ export default new Vuex.Store({
     GETPROFILE({ commit }) {
       commit('profile_request');
       axios
-        .get('https://frozen-refuge-45677.herokuapp.com/api/profile', {
-          headers: {
-            Authorization: 'Bearer ' + localStorage.getItem('token')
-          }
-        })
+        .get('https://frozen-refuge-45677.herokuapp.com/api/staffProfile/' + this.state.user._id)
         .then(response => {
           // console.log(response);
           const user = response.data.user;
