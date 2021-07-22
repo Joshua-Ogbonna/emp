@@ -7,6 +7,13 @@ import axios from 'axios'
 
 Vue.use(Vuex);
 
+import VuexPersist from 'vuex-persist';
+
+const vuexLocalStorage = new VuexPersist({
+  key: 'vuex',
+  storage: window.localStorage
+});
+
 export default new Vuex.Store({
   state: {
     isLoading: false,
@@ -425,5 +432,6 @@ export default new Vuex.Store({
         });
     }
   },
-  modules: {}
+  modules: {},
+  plugins: [vuexLocalStorage.plugin]
 });
