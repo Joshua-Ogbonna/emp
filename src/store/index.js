@@ -242,11 +242,11 @@ export default new Vuex.Store({
         });
     },
 
-    POSTPRODUCT({ commit }, payload) {
+    POSTLEAVE({ commit }, payload) {
       commit("postProduct_request");
       axios
         .put(
-          "https://frozen-refuge-45677.herokuapp.com/api/product/" +
+          "https://frozen-refuge-45677.herokuapp.com/api/leave/" +
             this.state.user._id,
           payload
         )
