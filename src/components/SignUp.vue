@@ -59,6 +59,12 @@
               <input class="form-control" type="text" name="localGovernment" />
             </div>
           </div>
+          <div class="col-lg-6">
+            <div class="form-group mt-3">
+              <label for="code" class="form-label">Staff Code</label>
+              <input type="text" name="code" class="form-control">
+            </div>
+          </div>
           <div class="col-lg">
             <div class="form-group mt-3">
               <label for="password" class="form-label">Pasword</label>
