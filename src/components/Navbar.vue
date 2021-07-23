@@ -21,6 +21,9 @@
             <li class="nav-item" v-if="this.$store.getters.isLoggedIn">
               <a class="nav-link active">Welcome {{ this.$store.getters.user.name }} </a>
             </li>
+            <li class="nav-item" v-if="this.$store.getters.isLoggedIn" @click="this.$store.dispatch('SIGNOUT')">
+              <a class="nav-link active">Logout</a>
+            </li>
             
           </ul>
         </div>
