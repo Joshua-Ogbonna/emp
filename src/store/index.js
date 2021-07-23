@@ -207,7 +207,7 @@ export default new Vuex.Store({
       localStorage.removeItem("token");
       localStorage.removeItem("vuex");
       delete axios.defaults.headers.common.Authorization;
-      router.push("/login");
+      router.push("/");
     },
 
     // Get user profile
