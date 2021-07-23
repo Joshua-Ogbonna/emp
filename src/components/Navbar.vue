@@ -19,17 +19,34 @@
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav">
             <li class="nav-item" v-if="this.$store.getters.isLoggedIn">
-              <a class="nav-link active">Welcome {{ this.$store.getters.user.name }} </a>
+              <a class="nav-link active"
+                >Welcome {{ this.$store.getters.user.name }}
+              </a>
             </li>
-            <li class="nav-item" v-if="this.$store.getters.isLoggedIn" @click="this.$store.dispatch('SIGNOUT')">
+            <li
+              class="nav-item"
+              v-if="this.$store.getters.isLoggedIn"
+              style=" cursor: pointer; "
+              @click="logout"
+            >
               <a class="nav-link active">Logout</a>
             </li>
-            
           </ul>
         </div>
       </div>
     </nav>
   </div>
 </template>
+
+<script>
+export default {
+  methods: {
+    logout() {
+      this.$store.dispatch('SIGNOUT')
+    }
+  },
+}
+</script>
+
 
 <style scoped></style>
