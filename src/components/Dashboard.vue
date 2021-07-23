@@ -18,12 +18,6 @@
           <h3>Complaints</h3>
         </router-link>
       </div>
-
-      <div class="self__service">
-        <router-link to="/dashboard/">
-          <h3>Self Service</h3>
-        </router-link>
-      </div>
     </div>
     <router-view></router-view>
   </div>
@@ -70,7 +64,7 @@ export default {
 .leave__management,
 .self__service,
 .complaint__management {
-  width: 24%;
+  width: 33%;
   height: 20%;
   background: #185adb;
   text-align: center;
