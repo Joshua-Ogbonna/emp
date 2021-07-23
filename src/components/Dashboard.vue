@@ -65,7 +65,6 @@ export default {
   display: flex;
   width: 100vw;
   justify-content: space-between;
-  height: 100vh;
 }
 .profile,
 .leave__management,
