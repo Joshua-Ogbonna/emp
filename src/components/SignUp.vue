@@ -115,7 +115,7 @@
             </div>
           </div>
 
-          <button class="mt-3" @click.prevent="signUpUser">Sign In</button>
+          <button class="mt-3" @click.prevent="signUpUser">Sign Up</button>
         </form>
         <div class="info mt-3">
           <p>
