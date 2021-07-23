@@ -57,7 +57,7 @@ export default {
 <style scoped>
 .login {
   background-color: #185adb;
-  height: 82.2vh;
+  height: 100vh;
   color: #fff;
 }
 .form {

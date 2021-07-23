@@ -167,7 +167,7 @@ export default {
 <style scoped>
 .signup {
   background-color: #185adb;
-  height: 82.2vh;
+  height: 100vh;
   color: #fff;
 }
 .form {
