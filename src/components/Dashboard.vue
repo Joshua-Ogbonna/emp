@@ -2,7 +2,7 @@
   <div class="dashboard">
     <div class="container mt-3">
       <div class="profile">
-        <router-link to="/dashboard/profile">
+        <router-link to="/dashboard/">
           <h3>Profile</h3>
         </router-link>
       </div>
@@ -35,7 +35,7 @@ export default {
     getProfile() {
       axios
         .get(
-          "https://frozen-refuge-45677.herokuapp.com/api/staffProfile/" +
+          "https://lit-badlands-92856.herokuapp.com/api/staffProfile/" +
             this.$store.state.user._id
         )
         .then((response) => {

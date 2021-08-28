@@ -158,7 +158,7 @@ export default new Vuex.Store({
     SIGNUP({ commit }, payload) {
       commit("register_request", true);
       axios
-        .post("https://frozen-refuge-45677.herokuapp.com/api/newStaff", payload)
+        .post("https://lit-badlands-92856.herokuapp.com/api/newStaff", payload)
         .then((response) => {
           if (response.data.success) {
             // router.push('/dashboard')
@@ -184,7 +184,7 @@ export default new Vuex.Store({
       commit("login_request");
 
       await axios
-        .post("https://frozen-refuge-45677.herokuapp.com/api/staff", payload)
+        .post("https://lit-badlands-92856.herokuapp.com/api/staff", payload)
         .then((response) => {
           if (response.data.success) {
             const token = response.data.token;
@@ -214,7 +214,7 @@ export default new Vuex.Store({
     GETPROFILE({ commit }) {
       commit("profile_request");
       axios
-        .get("https://frozen-refuge-45677.herokuapp.com/api/profile", {
+        .get("https://lit-badlands-92856.herokuapp.com/api/profile", {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("token"),
           },
@@ -229,7 +229,7 @@ export default new Vuex.Store({
     GETPRODUCTS({ commit }) {
       commit("products_request");
       axios
-        .get("https://frozen-refuge-45677.herokuapp.com/api/profile", {
+        .get("https://lit-badlands-92856.herokuapp.com/api/profile", {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("token"),
           },
@@ -246,7 +246,7 @@ export default new Vuex.Store({
       commit("postProduct_request");
       axios
         .put(
-          "https://frozen-refuge-45677.herokuapp.com/api/leave/" +
+          "https://lit-badlands-92856.herokuapp.com/api/leave/" +
             this.state.user._id,
           payload
         )
@@ -263,7 +263,7 @@ export default new Vuex.Store({
     GETSALES({ commit }) {
       commit("getSales_request");
       axios
-        .get("https://frozen-refuge-45677.herokuapp.com/api/profile", {
+        .get("https://lit-badlands-92856.herokuapp.com/api/profile", {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("token"),
           },
@@ -280,7 +280,7 @@ export default new Vuex.Store({
       commit("lead_request");
       axios
         .get(
-          "https://frozen-refuge-45677.herokuapp.com/api/leads/" +
+          "https://lit-badlands-92856.herokuapp.com/api/leads/" +
             this.state.user._id
         )
         .then((response) => {
@@ -293,7 +293,7 @@ export default new Vuex.Store({
     async POSTLEAD({ commit }, payload) {
       commit("postLead_request");
       await axios
-        .post("https://frozen-refuge-45677.herokuapp.com/api/create", payload, {
+        .post("https://lit-badlands-92856.herokuapp.com/api/create", payload, {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("token"),
           },
@@ -311,7 +311,7 @@ export default new Vuex.Store({
       commit("client_request");
       await axios
         .get(
-          "https://frozen-refuge-45677.herokuapp.com/api/clients/" +
+          "https://lit-badlands-92856.herokuapp.com/api/clients/" +
             this.state.user._id
         )
         .then((response) => {
@@ -326,7 +326,7 @@ export default new Vuex.Store({
     async POSTCLIENTS({ commit }, payload) {
       commit("postClient_request");
       await axios
-        .post("https://frozen-refuge-45677.herokuapp.com/api/client", payload, {
+        .post("https://lit-badlands-92856.herokuapp.com/api/client", payload, {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("token"),
           },
@@ -346,7 +346,7 @@ export default new Vuex.Store({
     async getNote({ commit }, id) {
       commit("note_request");
       await axios
-        .get("https://frozen-refuge-45677.herokuapp.com/api/client/" + id)
+        .get("https://lit-badlands-92856.herokuapp.com/api/client/" + id)
         .then((response) => {
           if (response.data.success) {
             const notes = response.data.data.notes;
@@ -362,7 +362,7 @@ export default new Vuex.Store({
     async getTasks({ commit }, id) {
       commit("task_request");
       await axios
-        .get("https://frozen-refuge-45677.herokuapp.com/api/client/" + id)
+        .get("https://lit-badlands-92856.herokuapp.com/api/client/" + id)
         .then((response) => {
           if (response.data.success) {
             const tasks = response.data.data.tasks;
@@ -379,7 +379,7 @@ export default new Vuex.Store({
       commit("sale_request");
       await axios
         .put(
-          "https://frozen-refuge-45677.herokuapp.com/api/complaint/" +
+          "https://lit-badlands-92856.herokuapp.com/api/complaint/" +
             this.state.user._id,
           payload
         )
@@ -398,7 +398,7 @@ export default new Vuex.Store({
       commit("delete_request");
       await axios
         .delete(
-          "https://frozen-refuge-45677.herokuapp.com/api/product/" +
+          "https://lit-badlands-92856.herokuapp.com/api/product/" +
             this.state.user._id +
             "/" +
             id
@@ -417,7 +417,7 @@ export default new Vuex.Store({
       commit("delete_request");
       await axios
         .delete(
-          "https://frozen-refuge-45677.herokuapp.com/api/sale/" +
+          "https://lit-badlands-92856.herokuapp.com/api/sale/" +
             this.state.user._id +
             "/" +
             id

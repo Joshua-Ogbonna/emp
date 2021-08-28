@@ -49,7 +49,7 @@ const routes = [
         component: Complaints
       },
       {
-        path: 'profile',
+        path: '/dashboard',
         name: 'Profile',
         component: Profile
       }
